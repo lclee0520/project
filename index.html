@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Web IDE</title>
+    <!-- Tailwind CSS를 사용해 빠르고 쉽게 스타일을 적용합니다 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 화면 전체를 채우도록 기본 스타일을 설정합니다 */
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1b26; /* 어두운 배경색 */
+            color: #c0caf5; /* 기본 글자색 */
+        }
+        /* 스크롤바 스타일링 (선택 사항) */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #24283b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #414868;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #565f89;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen">
+
+    <!-- 1. 헤더 영역 -->
+    <header class="bg-[#1f2335] text-white p-2 flex items-center shadow-md z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+        <h1 class="text-lg font-semibold"> My Web IDE</h1>
+    </header>
+
+    <!-- 2. 메인 콘텐츠 영역 (파일 탐색기 + 에디터/터미널) -->
+    <main class="flex flex-grow overflow-hidden">
+
+        <!-- 2.1. 파일 탐색기 (왼쪽) -->
+        <aside class="w-64 bg-[#24283b] p-4 flex flex-col shrink-0">
+            <h2 class="text-base font-bold tracking-wider">파일 탐색기</h2>
+            <hr class="border-t border-[#414868] my-4" />
+            <ul class="space-y-2">
+                <!-- 폴더 예시 -->
+                <li class="flex items-center cursor-pointer hover:bg-opacity-20 hover:bg-white rounded p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
+                    <span>project</span>
+                </li>
+                <!-- 파일 예시 -->
+                <li class="ml-4 flex items-center cursor-pointer hover:bg-opacity-20 hover:bg-white rounded p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                    <span>index.html</span>
+                </li>
+                <li class="ml-4 flex items-center cursor-pointer hover:bg-opacity-20 hover:bg-white rounded p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    <span>script.js</span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 2.2. 에디터와 터미널 영역 (오른쪽) -->
+        <div class="flex flex-col flex-grow">
+
+            <!-- 2.2.1. 코드 에디터 (실제로는 Monaco Editor 등으로 대체될 영역) -->
+            <div id="editor-container" class="flex-grow bg-[#1a1b26] relative flex flex-col">
+                <!-- 에디터 탭 -->
+                 <div class="bg-[#24283b] px-4 py-2 text-sm text-white flex items-center justify-between">
+                     <span class="bg-[#414868] px-3 py-1 rounded-md">index.html</span>
+                     <!-- 코드 실행 버튼 -->
+                    <button class="flex items-center bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm font-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                        </svg>
+                        실행
+                    </button>
+                 </div>
+                 <!-- 실제 코드 입력 영역 -->
+                <textarea class="w-full flex-grow p-4 bg-transparent text-lg font-mono resize-none focus:outline-none leading-relaxed" spellcheck="false">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>테스트 페이지</title>
+</head>
+<body>
+    <h1>안녕하세요!</h1>
+    <script>
+        console.log("웹 IDE에서 코드를 작성 중입니다.");
+    </script>
+</body>
+</html>
+                </textarea>
+            </div>
+
+            <!-- 에디터와 터미널 크기 조절 핸들 (구현 필요) -->
+            <div class="h-2 bg-[#1f2335] cursor-row-resize hover:bg-blue-500"></div>
+
+            <!-- 2.2.2. 터미널/결과창 -->
+            <div id="terminal-container" class="h-48 bg-[#1f2335] p-4 font-mono text-sm overflow-y-auto shrink-0">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold tracking-wider"> $ 터미널</h3>
+                </div>
+                <div id="output">
+                    <p>> node app.js</p>
+                    <p class="text-gray-400">서버가 3000번 포트에서 실행 중입니다...</p>
+                    <p class="text-green-400">성공: 요청을 처리했습니다.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
